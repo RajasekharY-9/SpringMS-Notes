@@ -534,3 +534,346 @@ EurekaServer
 
 api-gateway
 
+
+=============================================================================================================================
+Write a code for Anagram?
+
+What is Anagram?
+An anagram is a word or phrase that can be formed by rearranging the letters of another word or phrase, 
+using all the original letters exactly once. For example, "listen" and "silent" are anagrams.
+
+import java.util.Arrays;
+
+public class AnagramChecker {
+
+    // Function to check if two strings are anagrams
+    public static boolean areAnagrams(String str1, String str2) {
+        // Remove any spaces and convert strings to lowercase
+        str1 = str1.replaceAll("\\s", "").toLowerCase();
+        str2 = str2.replaceAll("\\s", "").toLowerCase();
+
+        // If lengths of strings are not the same, they can't be anagrams
+        if (str1.length() != str2.length()) {
+            return false;
+        }
+
+        // Convert strings to character arrays
+        char[] charArray1 = str1.toCharArray();
+        char[] charArray2 = str2.toCharArray();
+
+        // Sort both character arrays
+        Arrays.sort(charArray1);
+        Arrays.sort(charArray2);
+
+        // Compare sorted arrays
+        return Arrays.equals(charArray1, charArray2);
+    }
+
+    public static void main(String[] args) {
+        String str1 = "Listen";
+        String str2 = "Silent";
+
+        if (areAnagrams(str1, str2)) {
+            System.out.println(str1 + " and " + str2 + " are anagrams.");
+        } else {
+            System.out.println(str1 + " and " + str2 + " are not anagrams.");
+        }
+    }
+}
+
+2.Code for find missing num in unsorted List?
+
+3.sort custom object using java8?
+
+4.Object class and its methods?
+The Object class in Java is the root class of the class hierarchy. Every class in Java is a descendant of Object, either directly or indirectly.
+This means that every class in Java, including user-defined classes, 
+implicitly inherits from Object and has access to the methods defined in Object.
+
+Method	Purpose
+equals(Object obj)->	Compares two objects for equality
+toString()->	Returns a string representation of the object
+hashCode()->	Returns a hash code for the object
+clone()->	Creates and returns a shallow copy of the object
+finalize()->	Called by garbage collector before object is destroyed
+wait()->	Causes the thread to wait until notify() or notifyAll()
+wait(long timeout)->Causes the thread to wait for the specified timeout
+wait(long timeout, int nanos)->Waits for a precise time duration (milliseconds + nanos)
+notify()->	Wakes up one waiting thread
+notifyAll()-> Wakes up all waiting threads
+getClass()->	Returns the Class object representing this object
+
+Notes:
+Methods like equals(), toString(), and hashCode() are commonly overridden to provide custom behavior.
+wait(), notify(), and notifyAll() are used for thread synchronization and can only be called from within a synchronized block.
+
+5.11111implement code for comparable and comparator?
+In Java, both Comparable and Comparator are used to compare objects for sorting purposes. The key difference is that:
+
+Comparable is used to define the natural ordering of an object by implementing the compareTo() method inside the class.
+Comparator is used to define multiple ways of sorting objects, often used outside the class.
+
+Comparable example:
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+class Employee implements Comparable<Employee> {
+    private String name;
+    private int age;
+
+    // Constructor
+    public Employee(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    // Implementing the compareTo() method for natural ordering based on age
+    @Override
+    public int compareTo(Employee other) {
+        return Integer.compare(this.age, other.age);  // Sorts in ascending order by age
+    }
+
+    // toString() for displaying the employee information
+    @Override
+    public String toString() {
+        return "Employee{name='" + name + "', age=" + age + '}';
+    }
+}
+
+public class ComparableExample {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee("Alice", 30));
+        employees.add(new Employee("Bob", 25));
+        employees.add(new Employee("Charlie", 35));
+
+        // Sorting employees using the natural order defined in compareTo() (by age)
+        Collections.sort(employees);
+
+        // Display sorted employees
+        System.out.println("Employees sorted by age:");
+        for (Employee e : employees) {
+            System.out.println(e);
+        }
+    }
+}
+
+comparator Example:
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+class Employee {
+    private String name;
+    private int age;
+
+    // Constructor
+    public Employee(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    // toString() for displaying the employee information
+    @Override
+    public String toString() {
+        return "Employee{name='" + name + "', age=" + age + '}';
+    }
+}
+
+public class ComparatorExample {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee("Alice", 30));
+        employees.add(new Employee("Bob", 25));
+        employees.add(new Employee("Charlie", 35));
+
+        // Sorting by age using Comparator (ascending order)
+        employees.sort(Comparator.comparingInt(Employee::getAge));
+        System.out.println("Employees sorted by age:");
+        for (Employee e : employees) {
+            System.out.println(e);
+        }
+
+        // Sorting by name using Comparator (alphabetical order)
+        employees.sort(Comparator.comparing(Employee::getName));
+        System.out.println("\nEmployees sorted by name:");
+        for (Employee e : employees) {
+            System.out.println(e);
+        }
+
+        // Sorting by age in descending order using Comparator
+        employees.sort(Comparator.comparingInt(Employee::getAge).reversed());
+        System.out.println("\nEmployees sorted by age (descending):");
+        for (Employee e : employees) {
+            System.out.println(e);
+        }
+    }
+}
+
+6.Explain popular design patterns in microservices with realtime exapmles ?
+1. API Gateway Pattern:
+Pattern: The API Gateway acts as a reverse proxy that routes client requests to the appropriate backend microservices, also handling cross-cutting concerns like security, rate limiting, and load balancing.
+Real-time Example: In Netflix, the Zuul API Gateway routes requests from millions of clients to microservices like UserService, MovieService, or PaymentService. 
+It helps in load balancing, caching, and failure handling while abstracting the complexity of backend services.
+2. Database per Service Pattern
+Pattern: Each microservice manages its own database to ensure loose coupling between services, meaning no shared database across microservices.
+Real-time Example: In Amazon, different services like OrderService, PaymentService, and InventoryService maintain separate databases for scalability and independence,
+ even though all services together form part of a single order process.
+ 3. Circuit Breaker Pattern
+Pattern: The Circuit Breaker prevents a service from trying to execute an operation that is likely to fail, particularly due to network or service issues. It monitors failures and opens a circuit after repeated failures to avoid overwhelming the service.
+Real-time Example: Netflix Hystrix is used to implement Circuit Breaker in Netflix’s microservice architecture. If the MovieService fails or becomes slow,
+ Hystrix opens the circuit, returning a default response and preventing failures from cascading to other services.
+4. Saga Pattern
+Pattern: In distributed transactions across multiple microservices, the Saga pattern ensures data consistency using a series of local transactions. Each transaction updates data in its own service and publishes an event to trigger the next action.
+Real-time Example: In Uber, when you book a ride, the OrderService, PaymentService, and DriverService all work in a transaction chain. The Saga pattern ensures if any service fails, 
+compensating transactions (like refunding payments) are triggered to undo previous actions.
+5.Service Discovery Pattern
+Pattern: A Service Discovery mechanism allows services to dynamically find the network locations of other services without needing hardcoded endpoints.
+Real-time Example: Eureka in Netflix handles service discovery, where each microservice registers itself with Eureka and queries other services through it, 
+ensuring that the location of the services can change without affecting the system.
+
+6.CQRS (Command Query Responsibility Segregation) Pattern
+Pattern: Separates read (query) and write (command) operations, ensuring that queries are handled differently from updates. This improves scalability and performance.
+Real-time Example: In eBay, the order management service uses CQRS to handle high volumes of user orders and query responses.
+ Write operations update the order database, while read operations query a different optimized database.
+ 
+ 
+ 7.What is AOP Explain it with example like without AOP and with AOP?
+ AOP (Aspect-Oriented Programming) is a programming paradigm that allows you to separate cross-cutting concerns from the business logic of an application. In Spring, AOP helps you modularize concerns such as logging, transaction management, security, exception handling, and performance monitoring, which typically span multiple layers of an application.
+
+Key Concepts in AOP:
+Aspect: A module that encapsulates a cross-cutting concern (e.g., logging, security). It is a class annotated with @Aspect.
+Join Point: A point in the execution of the program, such as a method call, where an aspect can be applied.
+Advice: The action taken by an aspect at a particular join point. Types of advice:
+Before: Executed before the method.
+After: Executed after the method.
+Around: Executed before and after the method.
+After Returning: Executed if the method completes successfully.
+After Throwing: Executed if the method throws an exception.
+Pointcut: An expression that selects the join points where advice should be applied.
+Weaving: The process of applying aspects to the target object at the selected join points.
+Without AOP Example:
+Imagine you want to log method execution time for various service methods in your application. Without AOP, you would need to 
+manually add logging code to each method, which results in code duplication and violates the separation of concerns.
+ 
+ 
+ 8.Explain about Garbage collection ?
+ Garbage Collection (GC) in Java is the process of automatically reclaiming memory by identifying and discarding objects that are no longer in use, thus preventing memory leaks and optimizing memory usage. The Java Virtual Machine (JVM) performs garbage collection, 
+ allowing developers to focus more on application logic without worrying about manual memory management.
+ In Java, the gc() method is a way to request garbage collection from the JVM. It is defined in the java.lang.System and java.lang.Runtime classes. This method is used to suggest that the JVM runs its garbage collector to reclaim memory that is no longer in use.
+ However, calling gc() does not guarantee that the garbage collection will actually happen immediately, as it is just a request to the JVM.
+ System.gc();
+ What Happens When gc() Is Called?
+When you invoke System.gc() or Runtime.getRuntime().gc(), you are essentially suggesting that the JVM should initiate garbage collection.
+The JVM is free to ignore this request and decide when to perform garbage collection based on its internal memory management strategy.
+ 
+The gc() method in Java can be used to suggest garbage collection, but it is rarely needed in well-designed applications. Java's garbage collectors are quite efficient at determining when to run, and the JVM usually handles memory management effectively without manual intervention.
+ Avoid using gc() unnecessarily, as it can lead to performance issues, and rely on the JVM's built-in GC strategies instead. 
+ 
+9.If we have Interfaces and Functional Interfaces in java before java 8 also why they introduces @FunctionalInterface?
+The @FunctionalInterface annotation introduced in Java 8 was designed to clearly mark interfaces intended to be used as functional interfaces, facilitating the use of lambda expressions and method references. It provides compile-time checking to ensure that these interfaces adhere to the functional interface contract, enhances code readability, and prevents accidental additions of multiple abstract methods. While functional interfaces existed before Java 8, 
+this annotation brought formalization and clarity to their role in the Java language, especially in the context of functional programming. 
+ 
+10.Find highest salary from an employee list use java8
+
+List<Employee> employees = Arrays.asList(
+                new Employee("John", 50000),
+                new Employee("Jane", 75000),
+                new Employee("Doe", 85000),
+                new Employee("Smith", 60000)
+        );
+
+        // Finding the employee with the highest salary
+        Optional<Employee> highestPaidEmployee = employees.stream()
+                .max(Comparator.comparingDouble(Employee::getSalary));
+
+        // Displaying the result
+        highestPaidEmployee.ifPresent(employee ->
+                System.out.println("Highest Paid Employee: " + employee));
+    } 
+	
+11.Remove duplicates from array uisng java 8 ?
+Integer [] arr={1,1,2,3,3};
+        List<Integer> uniqueList=Arrays.stream(arr).distinct().collect(Collectors.toList());
+        System.out.println(uniqueList);
+12.How to bring string to stringpool and explain about these with stringbuffer and stringBuilder with exmples
+
+
+In Java, the String Pool (also known as the String Intern Pool) is a special area in the heap memory where Java stores unique instances of strings. This helps save memory by reusing string literals rather than creating new objects for identical string values.
+
+Here's how you can manage and use strings with the String Pool, and how it contrasts with StringBuffer and StringBuilder.
+
+String Pool
+String Pool Basics:
+String Literals: When you create a string literal in Java, it is automatically placed in the String Pool. For example:
+
+java
+Copy code
+String str1 = "Hello";
+String str2 = "Hello";
+Both str1 and str2 will refer to the same instance in the String Pool.
+
+String Interning: You can manually place a string into the pool using the intern() method:
+
+java
+Copy code
+String str3 = new String("Hello");
+String str4 = str3.intern();
+Here, str4 will refer to the pooled string literal "Hello", and str3 is a new instance that is not in the pool.
+
+
+13.What is serialization and its uses ?
+Serialization in Java is the process of converting an object into a byte stream so that it can be easily saved to a file, transmitted over a network, or passed between different components of a distributed system. 
+Deserialization is the reverse process, where a byte stream is converted back into an object.
+Implementation: In Java, a class must implement the Serializable interface to enable serialization.
+public class Person implements Serializable {
+    private static final long serialVersionUID = 1L; // Optional, for version control
+    private String name;
+    private transient int age; // `transient` fields are not serialized
+
+    // Constructors, getters, and setters
+}
+
+
+transient Keyword:
+
+Fields marked as transient are not serialized. This is useful for fields that are not serializable or
+ for sensitive data that should not be persisted.
+SerialVersionUID:
+
+It's a good practice to declare a serialVersionUID to ensure compatibility between different versions of a class. If the class definition changes (e.g., fields are added or removed), 
+deserialization might fail if the serialVersionUID does not match.
+
+Serialization: Converts an object to a byte stream.
+Deserialization: Converts a byte stream back to an object.
+Serializable Interface: A marker interface that allows objects to be serialized.
+Transient Fields: Fields marked as transient are not serialized.
+Custom Serialization: Implement writeObject and readObject for custom serialization.
+Serialization and Inheritance: Properly handle serialization when dealing with inheritance, especially if the superclass is not serializable.
+
+14.Marker Interface ?
+A marker interface is a design pattern in Java where an interface with no methods is used to mark or tag classes with a specific property or behavior. Examples include Serializable, Cloneable, and Remote.
+ While they have been important in Java's design, annotations have largely taken over their role in modern Java development.
+
+
+
